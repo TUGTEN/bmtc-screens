@@ -1,0 +1,22 @@
+// Color Variables
+$primary: #001837; // Primary theme color
+$primary-highlight: #00245c; // Highlight color for primary elements
+$accent: #838383; // Accent color for borders and other details
+$text-primary: #ffffff; // Primary text color, typically used on dark backgrounds
+$text-secondary: #333333; // Secondary text color, typically used on light backgrounds
+$secondary: #e1e1e1; // Secondary background color used for hover effects
+
+$text-light: lighten(blue, 50%);
+
+$border-color: #b3b3b3; // Color for borders
+$secondary-background: #f0f0f5; // Background color for secondary elements
+$secondary-highlight: #d9d9e0; // Highlight color for secondary elements
+$button-blue: #005bb5; // Blue color for buttons
+$button-blue-hover: #004494; // Darker blue for button hover state
+$result-background: #ffffff; // Background color for result entries
+$route-number-color: #222222; // Color for route numbers
+$bus-number-color: #555555; // Color for bus numbers
+$time-color: #777777; // Color for arrival times
+$button-background: #e6e6e6; // Default button background color
+$button-background-hover: #cccccc; // Button background color when hovered
+$primary-background: #ffffff; // Background color for primary elements

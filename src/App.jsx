@@ -1,12 +1,22 @@
 import './assets/styles/main.scss';
+import SearchBar from './components/search-bar.jsx';
+import {useState} from 'react';
+// import {STOPS} from './utils/constants.js';
+import Results from './components/results.jsx';
 
 function App() {
-
-  return (
-    <div>
-      <h1>Hello World!</h1>
-    </div>
-  )
+    const [searchResults, setSearchResults] = useState([]);
+    // console.log(searchResults);
+    return (
+        <div className='screens-app'>
+            <SearchBar
+            setSearchResults={setSearchResults}
+            />
+            <Results
+                searchResults={searchResults}
+            />
+        </div>
+    )
 }
 
-export default App
+export default App;
