@@ -2,8 +2,8 @@ import ALL_STOPS from './stops.json';
 import ALL_PLATFORMS from './platforms.json';
 
 
-export const BMTC_API_ENDPOINT = import.meta.env.BMTC_API_ENDPOINT;
-export const CORS_ANYWHERE = import.meta.env.CORS_ANYWHERE;
+export const BMTC_API_ENDPOINT = import.meta.env.VITE_BMTC_API_ENDPOINT;
+export const CORS_ANYWHERE = import.meta.env.VITE_CORS_ANYWHERE;
 
 export const STOPS = ALL_STOPS.reduce((result, stop) => {
     if (!result[stop.stop_name]) {

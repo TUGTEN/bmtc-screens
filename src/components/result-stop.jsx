@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ResultList from './result-list.jsx';
-import ResultPlatform from './result-platform.jsx';
+// import ResultPlatform from './result-platform.jsx';
 import {BMTC_API_ENDPOINT, CORS_ANYWHERE} from '../utils/constants.js';
 import stopIcon from '../assets/images/signpost-fill.svg';
 import openLinkIcon from '../assets/images/arrow-square-out-thin.svg';
@@ -28,7 +28,7 @@ const ResultStop = ({ name, stop }) => {
                 try {
                     console.log(CORS_ANYWHERE);
                     console.log(BMTC_API_ENDPOINT);
-                    const response = await fetch(`https://cors-anywhere-gie7.onrender.com/https://bmtcmobileapistaging.amnex.com/WebAPI/GetMobileTripsData/`, {
+                    const response = await fetch(`${CORS_ANYWHERE}${BMTC_API_ENDPOINT}/GetMobileTripsData/`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -38,6 +38,13 @@ const ResultStop = ({ name, stop }) => {
                     console.log(response);
                     const data = (await response.json())['data'];
                     console.log(data);
+                    if(data && stop.platforms) {
+                        // Handle platform data, add platform tags
+                        for (let i = 0; i < busDataList.length; i++) {
+                            busDataList[i].platform = '';
+                                // stop.platforms.filter(p => p.routes);
+                        }
+                    }
                     setBusDataList(data ? data : []);
                 } catch (error) {
                     console.error('Error fetching bus data:', error);
@@ -72,37 +79,6 @@ const ResultStop = ({ name, stop }) => {
         );
     };
 
-    // const filteredPlatforms = () => {
-    //     const platformComponents = [];
-    //     const accountedBusData = new Set();
-    //
-    //     if (stop.platforms) {
-    //         Object.entries(stop.platforms).forEach(([platformId, platformData]) => {
-    //             const platformRoutes = platformData.routes;
-    //             const filteredBusData = busDataList.filter((bus) => {
-    //                 const matches = platformRoutes[bus.routeno];
-    //                 if (matches) {
-    //                     accountedBusData.add(bus.routeno);
-    //                 }
-    //                 return matches;
-    //             });
-    //
-    //             platformComponents.push(
-    //                 <ResultPlatform key={platformId} name={`Platform ${platformId}`} busDataList={filteredBusData} />
-    //             );
-    //         });
-    //     }
-    //
-    //     const unaccountedBusData = busDataList.filter((bus) => !accountedBusData.has(bus.routeno));
-    //     if (unaccountedBusData.length > 0) {
-    //         platformComponents.push(
-    //             <ResultPlatform key="unknown" name="Unknown Platform" busDataList={unaccountedBusData} />
-    //         );
-    //     }
-    //
-    //     return platformComponents;
-    // };
-
     return (
         <div className={`result-stop${isExpanded ? '-expanded' : ''}`}>
             <div
@@ -120,7 +96,7 @@ const ResultStop = ({ name, stop }) => {
                 (
                 <div className="google-maps-stop-button" onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${stop.stop_lat},${stop.stop_lon}`, '_blank')}>
                     Open in Google Maps
-                    <img src={openLinkIcon} className='icon24'/>
+                    <img src={openLinkIcon} alt="Open Link" className='icon24'/>
                 </div>
             )}
             {isExpanded &&

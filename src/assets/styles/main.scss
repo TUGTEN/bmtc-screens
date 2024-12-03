@@ -143,7 +143,6 @@
   width: 60px;
   overflow: auto;
   white-space: nowrap;
-  flex-shrink: 1;
 }
 
 .result-bus .station-name {
@@ -166,7 +165,7 @@
   margin-left: auto; // Pushes the bus number to the right of the container
   width: 80px;
   white-space: nowrap;
-  flex-shrink: 1;
+  //flex-shrink: 1;
 }
 
 .result-bus .time-arrive {
@@ -297,4 +296,8 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
+}
+
+.loading-stop-results {
+  align-self: center;
 }
