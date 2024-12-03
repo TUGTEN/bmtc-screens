@@ -1,8 +1,6 @@
 export const getCurrentLocation = async (setCurrentPosition) => {
-    console.log('Inside currentlocation util');
     const result = await navigator.permissions.query({name: 'geolocation'});
     if(result.state === 'granted' || result.state === 'prompt') {
-        console.log('result state not denied');
         if(navigator.geolocation) {
             console.log('geolocation is supported');
             await navigator.geolocation.getCurrentPosition(
