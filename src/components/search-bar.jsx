@@ -14,7 +14,7 @@ function SearchBar({setSearchResults}) {
         const searchTerm = e.target ? e.target.value : e.value;
         const newSearchTerm = searchTerm ? searchTerm : '';
         setSearchValue(newSearchTerm);
-        const searchFilter = newSearchTerm.length > 1 ? newSearchTerm : '';
+        const searchFilter = newSearchTerm.length > 2 ? newSearchTerm : '';
         setSearchResults(searchFilter.replaceAll(' ', '') === '' ? [] :
             Object.keys(STOPS).filter((item) =>
             item.toLowerCase().includes(searchFilter.toLowerCase())
