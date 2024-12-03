@@ -118,7 +118,7 @@ function SearchBar({setSearchResults}) {
                 className="search-input"
             />
             <button className="location-button" onClick={() => {
-                const url = encodeURIComponent(`${window.location.protocol}//` +
+                const url = encodeURI(`${window.location.protocol}//` +
                     `${window.location.host}/?search=${searchValue}${positionToggled ?
                         `&lat=${currentPosition.coords.latitude}&lon=` +
                         `${currentPosition.coords.longitude}&acc=${currentPosition.coords.accuracy}` : ``}`);
