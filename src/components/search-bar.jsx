@@ -10,7 +10,7 @@ import { ALL_STOPS_LIST, STOPS } from '../utils/constants.js';
 const fuse = new Fuse(ALL_STOPS_LIST, {
     keys: ['stop_name'],
     includeScore: true,
-    threshold: 0.05,
+
     distance: 1,
     ignoreLocation:true,
     fieldNormWeight:0.01,
@@ -27,6 +27,29 @@ function SearchBar({setSearchResults}) {
         const newSearchTerm = searchTerm ? searchTerm : '';
         setSearchValue(newSearchTerm);
         const searchFilter = newSearchTerm.length > 2 ? newSearchTerm : '';
+        setSearchResults(
+            // searchFilter.replaceAll(' ', '') === '' ? [] :
+            // Object.keys(STOPS).filter((item) =>
+            // item.toLowerCase().includes(searchFilter.toLowerCase()))
+
+
+            // Fuzzy Search with Fuse.js
+
+            fuse.search(searchFilter).slice(0, 20).map((result) => {
+                console.log(result);
+                return result.item.stop_name}).sort((a,b)=>{
+                    
+                    if(a.toLocaleLowerCase().startsWith(searchFilter.toLocaleLowerCase()) && !b.toLocaleLowerCase().startsWith(searchFilter.toLocaleLowerCase())) {
+                        return -1;
+                    }
+
+                    if(!a.toLocaleLowerCase().startsWith(searchFilter.toLocaleLowerCase()) && b.toLocaleLowerCase().startsWith(searchFilter.toLocaleLowerCase())) {
+                        return 1;
+                    }
+
+                    return a.score-b.score
+                })
+        );
         setSearchResults(
             // searchFilter.replaceAll(' ', '') === '' ? [] :
             // Object.keys(STOPS).filter((item) =>
