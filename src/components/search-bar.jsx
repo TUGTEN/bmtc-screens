@@ -5,18 +5,15 @@ import copy from '../assets/images/copy-simple.svg';
 import magnifyingGlass from '../assets/images/magnifying-glass.svg';
 import navigationArrow from '../assets/images/navigation-arrow-duotone.svg';
 import { getCurrentLocation, getDistance } from '../utils';
-import { STOPS } from '../utils/constants.js';
-import fuseIndex from '../utils/fuse-index.json';
+import { ALL_STOPS_LIST, STOPS } from '../utils/constants.js';
 
-import ALL_STOPS from '../utils/stops.json';
-
-const stopNamesIndex = Fuse.parseIndex(fuseIndex)
-
-const fuse = new Fuse(ALL_STOPS, {
+const fuse = new Fuse(ALL_STOPS_LIST, {
     keys: ['stop_name'],
     includeScore: true,
-    threshold: 0.5,
-    index: stopNamesIndex
+    threshold: 0.05,
+    distance: 1,
+    ignoreLocation:true,
+    fieldNormWeight:0.01,
 });
 
 function SearchBar({setSearchResults}) {
@@ -33,11 +30,25 @@ function SearchBar({setSearchResults}) {
         setSearchResults(
             // searchFilter.replaceAll(' ', '') === '' ? [] :
             // Object.keys(STOPS).filter((item) =>
-            // item.toLowerCase().includes(searchFilter.toLowerCase())
+            // item.toLowerCase().includes(searchFilter.toLowerCase()))
 
 
-            //Fuzzy Search with Fuse.js
-            fuse.search(searchFilter).slice(0, 10).map((result) => result.item.stop_name)
+            // Fuzzy Search with Fuse.js
+
+            fuse.search(searchFilter).slice(0, 20).map((result) => {
+                console.log(result);
+                return result.item.stop_name}).sort((a,b)=>{
+                    
+                    if(a.toLocaleLowerCase().startsWith(searchFilter.toLocaleLowerCase()) && !b.toLocaleLowerCase().startsWith(searchFilter.toLocaleLowerCase())) {
+                        return -1;
+                    }
+
+                    if(!a.toLocaleLowerCase().startsWith(searchFilter.toLocaleLowerCase()) && b.toLocaleLowerCase().startsWith(searchFilter.toLocaleLowerCase())) {
+                        return 1;
+                    }
+
+                    return a.score-b.score
+                })
         );
     };
     const handlePlatformsLocations = (platforms, coords) => {

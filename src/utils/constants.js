@@ -29,3 +29,8 @@ export const STOPS = ALL_STOPS.reduce((result, stop) => {
     return result;
 
 }, {});
+
+export const ALL_STOPS_LIST = Object.keys(STOPS).map(stop => {
+    return { "stop_name": stop }});
+
+// console.log(ALL_STOPS_LIST)
